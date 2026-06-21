@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg: #0d0d0d;
+    --card: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e8e8e8;
+    --muted: #a0a0a0;
+    --teal: #4fd1c5;
+    --teal-dim: rgba(79, 209, 197, 0.15);
+    --teal-glow: rgba(79, 209, 197, 0.4);
+    --amber: #f6ad55;
+  }
+
+  html,
+  body {
+    background: #0d0d0d;
+    color: #e8e8e8;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  /* ── Focus node pulse glow ─────────────────────────────── */
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out forwards;
+  }
+
+  /* ── Capsule button ──────────────────────────────────────── */
+  .btn-capsule {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    outline: none;
+    letter-spacing: 0.01em;
+    font-family: inherit;
+    text-decoration: none;
+  }
+
+  .btn-capsule-teal {
+    background-color: #4fd1c5;
+    color: #0d0d0d;
+    border: none;
+  }
+
+  .btn-capsule-teal:hover:not(:disabled) {
+    background-color: #5be2d6;
+    box-shadow: 0 0 24px rgba(79, 209, 197, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-capsule-ghost {
+    background-color: transparent;
+    color: #a0a0a0;
+    border: 1px solid #2a2a2a;
+  }
+
+  .btn-capsule-ghost:hover:not(:disabled) {
+    border-color: #4fd1c5;
+    color: #4fd1c5;
+    transform: translateY(-1px);
+  }
+
+  /* ── Phase container ─────────────────────────────────────── */
+  .phase-container {
+    border-left: 2px solid #f6ad55;
+    padding-left: 1.25rem;
+  }
+
+  /* ── SVG node connector ──────────────────────────────────── */
+  .node-connector {
+    stroke: #2a2a2a;
+    stroke-width: 1.5;
+    stroke-dasharray: 6 5;
+    fill: none;
+  }
+
+  /* ── Input field ─────────────────────────────────────────── */
+  .input-field {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 0.875rem 1.125rem;
+    color: #e8e8e8;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+    resize: none;
+    display: block;
+  }
+
+  .input-field::placeholder {
+    color: rgba(160, 160, 160, 0.6);
+  }
+
+  .input-field:focus {
+    border-color: #4fd1c5;
+    box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.08);
+  }
+
+  /* ── Overlay backdrop ────────────────────────────────────── */
+  .overlay-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 13, 13, 0.92);
+    backdrop-filter: blur(8px);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ── Keyframe animations (global scope) ─────────────────── */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 209, 197, 0),
+      0 0 20px 4px rgba(79, 209, 197, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(79, 209, 197, 0.08),
+      0 0 40px 16px rgba(79, 209, 197, 0.35);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

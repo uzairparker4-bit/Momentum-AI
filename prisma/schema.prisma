@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                      String    @id @default(cuid())
+  email                   String    @unique
+  last_active_timestamp   DateTime  @default(now())
+  current_momentum_score  Int       @default(0)
+  projects                Project[]
+}
+
+model Project {
+  id              String   @id @default(cuid())
+  user_id         String
+  goal            String
+  due_date        DateTime
+  original_reason String?
+  user            User     @relation(fields: [user_id], references: [id])
+  phases          Phase[]
+}
+
+model Phase {
+  id         String   @id @default(cuid())
+  project_id String
+  title      String
+  order      Int
+  status     String   @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED
+  project    Project  @relation(fields: [project_id], references: [id])
+  tasks      Task[]
+}
+
+model Task {
+  id       String   @id @default(cuid())
+  phase_id String
+  title    String
+  order    Int
+  status   String   @default("PENDING") // PENDING, COMPLETED
+  phase    Phase    @relation(fields: [phase_id], references: [id])
+}
