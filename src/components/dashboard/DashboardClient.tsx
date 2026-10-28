@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ThreeNodePath from "@/components/dashboard/ThreeNodePath";
+import TaskCards from "@/components/dashboard/TaskCards";
 import PhaseCompleteOverlay from "@/components/dashboard/PhaseCompleteOverlay";
 import type { Task, Phase, Goal } from "@/actions/goals";
 
@@ -32,7 +32,7 @@ export default function DashboardClient({
   }
 
   return (
-    <ThreeNodePath
+    <TaskCards
       key={phase.id}
       tasks={tasks}
       phaseId={phase.id}

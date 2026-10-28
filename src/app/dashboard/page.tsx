@@ -4,10 +4,9 @@ import { getActiveGoal, getActivePhaseTasks } from "@/actions/goals";
 import { getDriftStatus, updateLastActive } from "@/actions/sessions";
 import { generateDriftMessage } from "@/lib/gemini";
 import PhaseIndicator from "@/components/dashboard/PhaseIndicator";
-import ReAnchorButton from "@/components/dashboard/ReAnchorButton";
 import DashboardClient from "@/components/dashboard/DashboardClient";
 import DriftReEntry from "@/components/DriftReEntry";
-import DashboardControls from "@/components/dashboard/DashboardControls";
+import BottomNavBar from "@/components/dashboard/BottomNavBar";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -53,28 +52,28 @@ export default async function DashboardPage() {
     return (
       <div
         className="min-h-screen flex flex-col items-center justify-center text-center px-8"
-        style={{ background: "#0d0d0d" }}
+        style={{ background: "#f4f6fb" }}
       >
         <div className="animate-fade-in max-w-md">
           <div
             className="mx-auto mb-8 flex items-center justify-center"
             style={{
               width: 80, height: 80, borderRadius: "50%",
-              background: "rgba(79,209,197,0.1)",
-              border: "1px solid rgba(79,209,197,0.3)",
+              background: "rgba(16,185,129,0.1)",
+              border: "1px solid rgba(16,185,129,0.3)",
             }}
           >
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 13l4 4L19 7" stroke="#4FD1C5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M5 13l4 4L19 7" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <h1 className="text-2xl font-light mb-3" style={{ color: "#e8e8e8" }}>
+          <h1 className="text-2xl font-semibold mb-3" style={{ color: "#111827" }}>
             You finished it.
           </h1>
-          <p className="text-base" style={{ color: "#a0a0a0", fontWeight: 300 }}>
+          <p className="text-base" style={{ color: "#4b5563", fontWeight: 400 }}>
             {goal.title}
           </p>
-          <p className="text-sm mt-6" style={{ color: "#606060" }}>
+          <p className="text-sm mt-6" style={{ color: "#6b7280" }}>
             That is not nothing. That is the whole thing.
           </p>
         </div>
@@ -94,31 +93,22 @@ export default async function DashboardPage() {
 
   return (
     <main
-      className="min-h-screen flex flex-col pb-28"
-      style={{ background: "#0d0d0d" }}
+      className="min-h-screen flex flex-col pb-32"
+      style={{ background: "#f4f6fb", color: "#111827" }}
     >
-      {/* Ambient background glow */}
-      <div
-        className="pointer-events-none fixed inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 40% at 50% 40%, rgba(79,209,197,0.04) 0%, transparent 70%)",
-        }}
-      />
-
-      {/* Controls: Go Back, Rewrite Goal, Sign Out */}
-      <DashboardControls userId={userId} />
-
       {/* Top: Phase indicator */}
       <PhaseIndicator
         phaseNumber={phase.phase_number}
         phaseName={phase.phase_name}
         totalPhases={totalPhases}
+        completedTasksCount={tasks.filter((t) => t.status === "completed").length}
+        totalTasksCount={tasks.length}
         targetDate={goal.target_date}
+        goalTitle={goal.title}
       />
 
-      {/* Center: 3-node path */}
-      <div className="flex-1 flex items-center justify-center w-full">
+      {/* Center: Vertical Task Cards */}
+      <div className="flex-1 flex flex-col items-center justify-start w-full">
         <DashboardClient
           goal={goal}
           phase={phase}
@@ -128,8 +118,9 @@ export default async function DashboardPage() {
         />
       </div>
 
-      {/* Bottom: Re-Anchor (always visible, fixed) */}
-      <ReAnchorButton
+      {/* Fixed Bottom Navigation Bar */}
+      <BottomNavBar
+        userId={userId}
         phaseId={phase.id}
         goalTitle={goal.title}
         phaseName={phase.phase_name}
